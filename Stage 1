@@ -1,0 +1,137 @@
+package tictactoe;
+import java.util.Scanner;
+
+public class Main {
+    public static boolean stage(char[][] matrix, int o) {
+        int j = 1;
+        for (int i = 0; i < 3; i++) {
+            if (matrix[i][j] == 'X' && matrix[i][j + 1] == 'X' && matrix[i][j + 2] == 'X') {
+                System.out.println("X wins");
+                return true;
+            } else if ((matrix[i][j] == 'O' && matrix[i][j + 1] == 'O' && matrix[i][j + 2] == 'O')) {
+                System.out.println("O wins");
+                return true;
+            }
+        }
+        int i = 0;
+        for(j = 1; j<4; j++) {
+            if (matrix[i][j] == 'X' && matrix[i+1][j] == 'X' && matrix[i+2][j]=='X') {
+                System.out.println("X wins");
+                return true;
+            }
+            else if(matrix[i][j] == 'O' && matrix[i+1][j] == 'O' && matrix[i+2][j]=='O'){
+                System.out.println("O wins");
+                return true;
+            }
+        }
+        i = 0;
+        j = 1;
+        if (matrix[i][j] == 'X' && matrix[i+1][j+1] == 'X' && matrix[i+2][j+2]=='X') {
+            System.out.println("X wins");
+            return true;
+        }
+        else if(matrix[i][j] == 'O' && matrix[i+1][j+1] == 'O' && matrix[i+2][j+2]=='O'){
+            System.out.println("O wins");
+            return true;
+        }
+        i = 0;
+        j = 3;
+        if (matrix[i][j] == 'X' && matrix[i+1][j-1] == 'X' && matrix[i+2][j-2]=='X') {
+            System.out.println("X wins");
+            return true;
+        }
+        else if(matrix[i][j] == 'O' && matrix[i+1][j-1] == 'O' && matrix[i+2][j-2]=='O'){
+            System.out.println("O wins");
+            return true;
+        }
+        if(o==0){
+            System.out.println("Draw");
+            return true;
+        }
+        System.out.println("Game not finished");
+            return false;
+    }
+    public static void print(char[][] matrix) {
+        System.out.print("---------");
+        for (int i = 0; i < 3; i++) {
+            System.out.print("\n");
+            for (int j = 0; j < 5; j++) {
+                if(matrix[i][j] == 'X') System.out.print("X ");
+                else if(matrix[i][j] == 'O') System.out.print("O ");
+                else if(matrix[i][j] == '|') System.out.print("| ");
+                else System.out.print("  ");
+            }
+        }
+        System.out.print("\n");
+        System.out.print("---------\n");
+    }
+    public static void main(String[] args) {
+        // write your code here
+        int x = 0 ;
+        int o = 0;
+        int z = 0;
+        boolean retryInput = false;
+        System.out.println("Enter the cells:");
+        Scanner s = new Scanner(System.in);
+        String input = s.nextLine();
+        for(int i = 0; i<input.length(); i++){
+            if(input.charAt(i) == 'X') x++;
+            else if(input.charAt(i) == 'O') o++;
+            else z++;
+        }
+        char[][] a = new char[3][5];
+        int next = 0;
+        for(int i=0; i<3; i++){
+            for(int j = 0; j<5; j++){
+                if(j==0 || j==4) a[i][j] = '|';
+                else if(input.charAt(next)=='X' || input.charAt(next)=='O'){
+                    a[i][j] = input.charAt(next);
+                    next++;
+                }
+                else{
+                    a[i][j]=' ';
+                    next++;
+                }
+            }
+        }
+        print(a);
+        do{
+            System.out.println("Enter the coordinates:");
+            int i = 0;
+            int j = 0;
+
+            do {
+                if (s.hasNextInt()) {
+                    i = s.nextInt();
+                    j = s.nextInt();
+                    if(i>3 || j>3){
+                        System.out.println("Coordinates should be from 1 to 3!");
+                        retryInput = false;
+                    }
+                    else if(a[i-1][j]=='X' || a[i-1][j]=='O'){
+                        System.out.println("This cell is occupied! Choose another one!");
+                        retryInput = false;
+                    }
+                    else{
+                        if(x==o){
+                            a[i-1][j] = 'X';
+                            x++;
+                            z--;
+                        }
+                        else{
+                            a[i-1][j] = 'O';
+                            o++;
+                            z--;
+                        }
+                        retryInput =true;
+                    }
+                }else{
+                    System.out.println("You should enter numbers!");
+                    retryInput = false;
+                    s.next();
+                }
+            }while (!(retryInput));
+            print(a);
+        }while(!(stage(a, o)));
+    }
+}
