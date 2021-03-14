@@ -1,0 +1,321 @@
+package tictactoe;
+import java.util.Scanner;
+import java.util.Random;
+
+public class Main {
+    public static boolean stage(char[][] matrix, int z) {
+        int j = 1;
+        for (int i = 0; i < 3; i++) {
+            if (matrix[i][j] == 'X' && matrix[i][j + 1] == 'X' && matrix[i][j + 2] == 'X') {
+                System.out.println("X wins");
+                return true;
+            } else if ((matrix[i][j] == 'O' && matrix[i][j + 1] == 'O' && matrix[i][j + 2] == 'O')) {
+                System.out.println("O wins");
+                return true;
+            }
+        }
+        int i = 0;
+        for (j = 1; j < 4; j++) {
+            if (matrix[i][j] == 'X' && matrix[i + 1][j] == 'X' && matrix[i + 2][j] == 'X') {
+                System.out.println("X wins");
+                return true;
+            } else if (matrix[i][j] == 'O' && matrix[i + 1][j] == 'O' && matrix[i + 2][j] == 'O') {
+                System.out.println("O wins");
+                return true;
+            }
+        }
+        i = 0;
+        j = 1;
+        if (matrix[i][j] == 'X' && matrix[i + 1][j + 1] == 'X' && matrix[i + 2][j + 2] == 'X') {
+            System.out.println("X wins");
+            return true;
+        } else if (matrix[i][j] == 'O' && matrix[i + 1][j + 1] == 'O' && matrix[i + 2][j + 2] == 'O') {
+            System.out.println("O wins");
+            return true;
+        }
+        i = 0;
+        j = 3;
+        if (matrix[i][j] == 'X' && matrix[i + 1][j - 1] == 'X' && matrix[i + 2][j - 2] == 'X') {
+            System.out.println("X wins");
+            return true;
+        } else if (matrix[i][j] == 'O' && matrix[i + 1][j - 1] == 'O' && matrix[i + 2][j - 2] == 'O') {
+            System.out.println("O wins");
+            return true;
+        }
+        if (z == 0) {
+            System.out.println("Draw");
+            return true;
+        }
+        return false;
+    }
+
+    public static void print(char[][] matrix) {
+        System.out.print("---------");
+        for (int i = 0; i < 3; i++) {
+            System.out.print("\n");
+            for (int j = 0; j < 5; j++) {
+                if (matrix[i][j] == 'X') System.out.print("X ");
+                else if (matrix[i][j] == 'O') System.out.print("O ");
+                else if (matrix[i][j] == '|') System.out.print("| ");
+                else System.out.print("  ");
+            }
+        }
+        System.out.print("\n");
+        System.out.print("---------\n");
+    }
+
+    public static void aiPlayEasy(int turn, char[][] a) {
+        boolean retryInput;
+        System.out.println("Making move level \"easy\"");
+        Random r = new Random();
+        do {
+            int i = (r.nextInt(3) + 1);
+            int j = (r.nextInt(3) + 1);
+            if (a[i - 1][j] == 'X' || a[i - 1][j] == 'O') retryInput = false;
+            else {
+                if (turn == 1) {
+                    a[i - 1][j] = 'X';
+                } else {
+                    a[i - 1][j] = 'O';
+                }
+                retryInput = true;
+            }
+        } while (!(retryInput));
+    }
+    public static void aiPlayMed(int turn, char[][] a) {
+        if ((a[0][1] == 'X' && a[1][2] == 'X')  || (a[1][2] == 'X' && a[2][3] == 'X') || (a[0][1] == 'X' && a[2][3] == 'X')) {
+            System.out.println("Making move level \"medium\"");
+            if (a[0][1] == 'X' && a[1][2] == 'X' && a[2][3]==' ') {
+                if (turn == 1) a[2][3] = 'X';
+                else a[2][3] = 'O';
+                return;
+            } else if (a[1][2] == 'X' && a[2][3] == 'X' && a[0][1] == ' ') {
+                if (turn == 1) a[0][1] = 'X';
+                else a[0][1] = 'O';
+                return;
+            } else if(a[0][1] == 'X' && a[2][3] == 'X' && a[1][2] == ' '){
+                if (turn == 1) a[1][2] = 'X';
+                else a[1][2] = 'O';
+                return;
+            }
+        }
+        if ((a[0][1] == 'O' && a[1][2] == 'O')  || (a[1][2] == 'O' && a[2][3] == 'O') || (a[0][1] == 'O' && a[2][3] == 'O')) {
+            System.out.println("Making move level \"medium\"");
+            if (a[0][1] == 'O' && a[1][2] == 'O' && a[2][3] == ' ') {
+                if (turn == 1) a[2][3] = 'X';
+                else a[2][3] = 'O';
+                return;
+            } else if (a[1][2] == 'O' && a[2][3] == 'O' && a[0][1] == ' ') {
+                if (turn == 1) a[0][1] = 'X';
+                else a[0][1] = 'O';
+                return;
+            } else if(a[0][1] == 'O' && a[2][3] == 'O' && a[1][2] == ' '){
+                if (turn == 1) a[1][2] = 'X';
+                else a[1][2] = 'O';
+                return;
+            }
+        }
+        if ((a[0][3] == 'O' && a[1][2] =='O') || (a[1][2] == 'O' && a[2][1]== 'O') || (a[0][3] == 'O' && a[2][1] == 'O')) {
+            System.out.println("Making move level \"medium\"");
+            if (a[0][3] == 'O' && a[1][2] =='O' && a[2][1] == ' ') {
+                if (turn == 1) a[2][1] = 'X';
+                else a[2][1] = 'O';
+                return;
+            } else if (a[1][2] == 'O' && a[2][1]== 'O'  && a[0][3] == ' ') {
+                if (turn == 1) a[0][3] = 'X';
+                else a[0][3] = 'O';
+                return;
+            } else if(a[0][3] == 'O' && a[2][1] == 'O' && a[1][2] == ' '){
+                if (turn == 1) a[1][2] = 'X';
+                else a[1][2] = 'O';
+                return;
+            }
+        }
+        if ((a[0][3] == 'X' && a[1][2] =='X') || (a[1][2] == 'X' && a[2][1]== 'X') || (a[0][3] == 'X' && a[2][1] == 'X')) {
+            System.out.println("Making move level \"medium\"");
+            if (a[0][3] == 'X' && a[1][2] =='X' && a[2][1] == ' ') {
+                if (turn == 1) a[2][1] = 'X';
+                else a[2][1] = 'O';
+                return;
+            } else if (a[1][2] == 'X' && a[2][1]== 'X'  && a[0][3] == ' ') {
+                if (turn == 1) a[0][3] = 'X';
+                else a[0][3] = 'O';
+                return;
+            } else if(a[0][3] == 'X' && a[2][1] == 'X' && a[1][2] == ' '){
+                if (turn == 1) a[1][2] = 'X';
+                else a[1][2] = 'O';
+                return;
+            }
+        }
+        for (int i = 0; i < 3; i++) {
+            if ((a[i][1] == 'X' && a[i][2] == 'X' && a[i][3] == ' ') || (a[i][2] =='X' && a[i][3] == 'X' && a[i][1] == ' ') || (a[i][1] == 'X' && a[i][3]=='X' && a[i][2] == ' ')) {
+                System.out.println("Making move level \"medium\"");
+                if (a[i][1] == 'X' && a[i][2] == 'X') {
+                    if (turn == 1) a[i][3] = 'X';
+                    else a[i][3] = 'O';
+                    return;
+                } else if (a[i][2] =='X' && a[i][3] == 'X') {
+                    if (turn == 1) a[i][1] = 'X';
+                    else a[i][1] = 'O';
+                    return;
+                } else {
+                    if (turn == 1) a[i][2] = 'X';
+                    else a[i][2] = 'O';
+                    return;
+                }
+            }
+            else if ((a[i][1] == 'O' && a[i][2] == 'O'  && a[i][3] == ' ') || (a[i][2] =='O' && a[i][3] == 'O' && a[i][1] == ' ') || (a[i][1] == 'O' && a[i][3]=='O' && a[i][2] == ' ')) {
+                System.out.println("Making move level \"medium\"");
+                if (a[i][1] == 'O' && a[i][2] == 'O') {
+                    if (turn == 1) a[i][3] = 'X';
+                    else a[i][3] = 'O';
+                    return;
+                } else if (a[i][2] =='O' && a[i][3] == 'O') {
+                    if (turn == 1) a[i][1] = 'X';
+                    else a[i][1] = 'O';
+                    return;
+                } else {
+                    if (turn == 1) a[i][2] = 'X';
+                    else a[i][2] = 'O';
+                    return;
+                }
+            }
+        }
+        for (int j = 1; j < 4; j++) {
+            if ((a[0][j]=='X' && a[1][j]=='X' && a[2][j] == ' ') || (a[1][j]=='X' && a[2][j]=='X' && a[0][j] == ' ') || (a[0][j]=='X' && a[2][j]=='X' && a[1][j] == ' ')) {
+                System.out.println("Making move level \"medium\"");
+                if (a[0][j]=='X' && a[1][j]=='X') {
+                    if (turn == 1) a[2][j] = 'X';
+                    else a[2][j] = 'O';
+                    return;
+                } else if (a[1][j]=='X' && a[2][j]=='X') {
+                    if (turn == 1) a[0][j] = 'X';
+                    else a[0][j] = 'O';
+                    return;
+                } else {
+                    if (turn == 1) a[1][j] = 'X';
+                    else a[1][j] = 'O';
+                    return;
+                }
+            }
+            else if ((a[0][j]=='O' && a[1][j]=='O' && a[2][j] == ' ') || (a[1][j]=='O' && a[2][j]=='O' && a[0][j] == ' ') || (a[0][j]=='O' && a[2][j]=='O' && a[1][j] == ' ')) {
+                System.out.println("Making move level \"medium\"");
+                if (a[0][j]=='O' && a[1][j]=='O') {
+                    if (turn == 1) a[2][j] = 'X';
+                    else a[2][j] = 'O';
+                    return;
+                } else if (a[1][j]=='O' && a[2][j]=='O') {
+                    if (turn == 1) a[0][j] = 'X';
+                    else a[0][j] = 'O';
+                    return;
+                } else {
+                    if (turn == 1) a[1][j] = 'X';
+                    else a[1][j] = 'O';
+                    return;
+                }
+            }
+        }
+        boolean retryInput;
+        System.out.println("Making move level \"medium\"");
+        Random z = new Random();
+        do {
+            int i = (z.nextInt(3) + 1);
+            int j = (z.nextInt(3) + 1);
+            if (a[i - 1][j] == 'X' || a[i - 1][j] == 'O') retryInput = false;
+            else {
+                if (turn == 1) {
+                    a[i - 1][j] = 'X';
+                } else {
+                    a[i - 1][j] = 'O';
+                }
+                retryInput = true;
+            }
+        } while (!(retryInput));
+    }
+
+    public static void userPlay(int turn, char[][] a) {
+        System.out.println("Enter the coordinates:");
+        boolean retryInput = false;
+        Scanner s = new Scanner(System.in);
+        do {
+            if (s.hasNextInt()) {
+                int i = s.nextInt();
+                int j = s.nextInt();
+                if (i > 3 || j > 3) {
+                    System.out.println("Coordinates should be from 1 to 3!");
+                    //retryInput = false;
+                } else if (a[i - 1][j] == 'X' || a[i - 1][j] == 'O') {
+                    System.out.println("This cell is occupied! Choose another one!");
+                    //retryInput = false;
+                } else {
+                    if (turn == 1) a[i - 1][j] = 'X';
+                    else a[i - 1][j] = 'O';
+                    retryInput = true;
+                }
+            } else {
+                System.out.println("You should enter numbers!");
+                s.next();
+            }
+        } while (!(retryInput));
+    }
+
+    public static void main(String[] args) {
+        int z = 9;
+        Scanner s = new Scanner(System.in);
+        boolean parameter = false;
+        String[] parameters;
+        do {
+            String input = s.nextLine();
+            if (input.equals("exit")) return;
+            parameters = input.split("\\s");
+            if (input.equals("start") || parameters.length < 3) System.out.println("Bad parameters!");
+            else parameter = true;
+        } while (!parameter);
+        char[][] a = new char[3][5];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 5; j++) {
+                if (j == 0 || j == 4) a[i][j] = '|';
+                else {
+                    a[i][j] = ' ';
+                }
+            }
+        }
+        print(a);
+        do {
+            for (int j = 1; j < 3; j++) {
+                if (parameters[j].equals("easy") && j == 1) {
+                    aiPlayEasy(1, a);
+                    z--;
+                    print(a);
+                    if((stage(a, z))) break;
+                } else if (parameters[j].equals("easy") && j == 2) {
+                    aiPlayEasy(2, a);
+                    z--;
+                    print(a);
+                    if((stage(a, z))) break;
+                } else if (parameters[j].equals("user") && j == 1) {
+                    userPlay(1, a);
+                    z--;
+                    print(a);
+                    if((stage(a, z))) break;
+                } else if(parameters[j].equals("user") && j == 2){
+                    userPlay(2, a);
+                    z--;
+                    print(a);
+                    if((stage(a, z))) break;
+                } else if(parameters[j].equals("medium") && j == 1){
+                    aiPlayMed(1, a);
+                    z--;
+                    print(a);
+                    if((stage(a, z))) break;
+                }
+                else{
+                    aiPlayMed(2, a);
+                    z--;
+                    print(a);
+                    if((stage(a, z))) break;
+                }
+            }
+        } while (!(stage(a, z)));
+    }
+}
